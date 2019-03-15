@@ -1,6 +1,9 @@
+#ifndef def_h_
+#define def_h_
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef unsigned int u32;
 
@@ -21,3 +24,9 @@ typedef struct _Grafo *Grafo;
     Vertice *vertices;
     u32 *orden;
   };
+
+void errorFormatoInvalido(Grafo G);
+
+Grafo construirGrafo();
+
+#endif
