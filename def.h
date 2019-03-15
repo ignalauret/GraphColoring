@@ -18,15 +18,19 @@ typedef struct _Grafo *Grafo;
   };
 
   struct _Grafo {
-    u32 nLados;
+    u32 nAristas;
     u32 nVertices;
     u32 nColores;
-    Vertice *vertices;
+    struct _Vertice *vertices;
     u32 *orden;
   };
 
 void errorFormatoInvalido(Grafo G);
 
 Grafo construirGrafo();
+
+void AgregarVertice(Grafo G, u32 id);
+
+int CantidadDeVertices(Grafo G);
 
 #endif
