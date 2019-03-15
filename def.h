@@ -36,7 +36,7 @@ void errorFormatoInvalido(Grafo G);
 
 Grafo construirGrafo();
 
-int cantidadDeVertices(Grafo G);
+int cantidadDeVerticesVacios(Grafo G);
 
 int agregarArista(Grafo G, u32 v1, u32 v2);
 

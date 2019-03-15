@@ -77,16 +77,23 @@ Grafo construirGrafo(){
     printf("Grafo Creado con exito.\n");
     grafo->nAristas = nAristas;
     grafo->nVertices = nVertices;
+    //Allocamos lugar para los n Vertices (Punteros a la estructura).
     grafo->vertices = calloc(nVertices,sizeof(Vertice));
+    //Allocamos lugar para el array de numeros para el orden de greedy.
     grafo->orden = malloc(nVertices*sizeof(u32));
+    //Seteamos el orden inicial como el orden en el que entran.
+    for(uint i = 0; i<nVertices; i++) grafo->orden[i] = i;
     grafo->nColores = 0;
   }
   else printf("Error en la creacion del grafo\n");
 
+  //Leemos lineas hasta que ya tengamos nAristas BIEN ESCRITAS.
+  //Nota: Saltea las aristas cargadas que ya existian.
   while(counter < nAristas){
     if(fgets(buffer, bufsize, stdin) != NULL) {
-
+      //Escaneamos la linea.
       sscanf(buffer, "%s %s %s", p, vertice1String, vertice2String);
+      //Inicio chequeo de valores.
       vertice1 = atoi(vertice1String);
       vertice2 = atoi(vertice2String);
 
@@ -99,105 +106,18 @@ Grafo construirGrafo(){
         errorFormatoInvalido(grafo);
         return NULL;
       }
-
+      //Fin del chequeo.
       printf("Arista de %u a %u\n",vertice1,vertice2);
-
+      //Solo sumamos al contador de aristas guardadas si no existia la arista.
       counter += agregarArista(grafo,vertice1, vertice2);
-      printf("Vertices Restantes: %d\n",cantidadDeVertices(grafo));
+      printf("Vertices Restantes: %d\n",cantidadDeVerticesVacios(grafo));
     } else {
       errorFormatoInvalido(grafo);
       return NULL;
     }
   }
+  //Devolvemos el grafo construido cuando se hayan leido todas las aristas.
   return grafo;
-}
-
-Vertice agregarVertice(Grafo grafo, u32 id){
-  if(grafo->vertices[id] == 0){
-    Vertice nuevoVertice = malloc(sizeof(struct _Vertice));
-    nuevoVertice->nombre = id;
-    nuevoVertice->grado = 1;
-    nuevoVertice->color = 0;
-    nuevoVertice->vecinos = malloc(sizeof(Vecino));
-    grafo->vertices[id] = nuevoVertice;
-    printf("Vertice Creado.\n");
-    return nuevoVertice;
-  }
-  grafo->vertices[id]->grado++;
-  printf("Vertice Existente.\n");
-  return grafo->vertices[id];
-}
-
-int agregarArista(Grafo G, u32 v1, u32 v2){
-  Vertice vertice1 = agregarVertice(G,v1);
-  Vertice vertice2 = agregarVertice(G,v2);
-  if(esVecino(G->vertices[v1],vertice2) || esVecino(G->vertices[v2],vertice1)){
-    printf("Error arista ya existente\n");
-    return 0;
-  }
-  agregarVecino(G->vertices[v1],vertice2);
-  agregarVecino(G->vertices[v2],vertice1);
-  return 1;
-}
-
-void agregarVecino(Vertice vertice, Vertice vecino){
-  Vecino nuevoVecino = malloc(sizeof(struct _Vecino));
-  nuevoVecino->vertice = vecino;
-  nuevoVecino->siguienteVecino = vertice->vecinos;
-  vertice->vecinos = nuevoVecino;
-}
-
-bool esVecino(Vertice v1, Vertice v2){
-  Vecino vecino = v1->vecinos;
-  while(vecino != NULL){
-    if(vecino->vertice == v2) break;
-    vecino = vecino->siguienteVecino;
-  }
-  return vecino != NULL;
-}
-
-Vertice vecinoNumero(Vertice v, u32 i){
-  u32 counter = 0;
-  Vecino vecino = v->vecinos;
-
-  while(vecino != NULL && counter < i){
-    vecino = vecino->siguienteVecino;
-    counter++;
-  }
-  if(vecino == NULL) return NULL;
-  return vecino->vertice;
-}
-
-int cantidadDeVertices(Grafo G){
-  int counter = 0;
-  int size = G->nVertices;
-  for(uint i = 0; i<size;i++){
-    if(G->vertices[i] == 0){
-      counter++;
-    }
-  }
-  return counter;
-}
-
-void leerGrafo(Grafo G){
-  for(uint i = 0; i<G->nVertices;i++){
-    printVecinos(G->vertices[i]);
-  }
-}
-
-void printVecinos(Vertice v){
-  if(v == NULL) return;
-  Vecino actual = v->vecinos;
-  if(actual == NULL) {
-    printf("No hay nada\n");
-    return;
-  }
-  printf("Los vecinos de %d son:\n", v->nombre );
-  while( actual->siguienteVecino != NULL ) {
-    u32 listo = actual->vertice->nombre;
-    printf("%d\n", listo );
-    actual = actual->siguienteVecino;
-  }
 }
 
 void errorFormatoInvalido(Grafo G){
