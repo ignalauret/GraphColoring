@@ -52,4 +52,6 @@ void printVecinos(Vertice v);
 
 void leerGrafo(Grafo g);
 
+int checkIfNumber(char nummero[]);
+
 #endif

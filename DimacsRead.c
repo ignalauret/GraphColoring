@@ -1,7 +1,5 @@
 #include "def.h"
 
-
-
 Grafo construirGrafo(){
   //El grafo
   Grafo grafo;
@@ -42,13 +40,14 @@ Grafo construirGrafo(){
   //Escaneamos la linea a ver si tenemos 4 elementos.
   sscanf(buffer,"%s %s %s %s",p,edge,nAristasString,nVerticesString);
 
+
   //Convertimos los strings a numero (u32).
-  nAristas = atoi(nAristasString);
-  nVertices = atoi(nVerticesString);
+  nAristas = checkIfNumber(nAristasString);
+  nVertices = checkIfNumber(nVerticesString);
 
   //Si no eran numeros, entonces atoi devuelve 0...
   //TODO: Se rompe si le paso un numero seguido de letras y numeros, toma el numero hasta la primer letra. Ej: 55fd98 = 55.
-  if(nVertices == 0 || nAristas == 0){
+  if(nVertices == -1 || nAristas == -1){
     errorFormatoInvalido(grafo);
     return NULL;
   }
@@ -94,22 +93,26 @@ Grafo construirGrafo(){
       //Escaneamos la linea.
       sscanf(buffer, "%s %s %s", p, vertice1String, vertice2String);
       //Inicio chequeo de valores.
-      vertice1 = atoi(vertice1String);
-      vertice2 = atoi(vertice2String);
+      vertice1 = checkIfNumber(vertice1String);
+      vertice2 = checkIfNumber(vertice2String);
+
+      if(vertice1 == -1 || vertice2 == -1){
+        errorFormatoInvalido(grafo);
+        return NULL;
+      }
 
       if(strncmp(p,"e",1) != 0){
         errorFormatoInvalido(grafo);
         return NULL;
       }
 
-      if(vertice1 <= 0 || vertice2 <= 0){
-        errorFormatoInvalido(grafo);
-        return NULL;
-      }
+
       //Fin del chequeo.
       printf("Arista de %u a %u\n",vertice1,vertice2);
       //Solo sumamos al contador de aristas guardadas si no existia la arista.
-      counter += agregarArista(grafo,vertice1, vertice2);
+      int incremento = agregarArista(grafo,vertice1, vertice2);
+      if(incremento == -1) return NULL;
+      counter += incremento;
       printf("Vertices Restantes: %d\n",cantidadDeVerticesVacios(grafo));
     } else {
       errorFormatoInvalido(grafo);
@@ -126,4 +129,15 @@ void errorFormatoInvalido(Grafo G){
   free(G);
   //Printeo mensaje de error.
   printf("### Formato de Grafo Invalido ###\n### Revisar formato DIMACS ###\n" );
+}
+
+int checkIfNumber(char numero[]){
+  char numberCheck[11];
+  numberCheck[0] = '1';
+  for(uint i = 0;i<10;i++){
+    numberCheck[i+1] = numero[i];
+  }
+  u32 ret = atoi(numberCheck);
+  if(ret == 0) return -1;
+  return atoi(numero);
 }

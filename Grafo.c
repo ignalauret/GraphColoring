@@ -3,8 +3,10 @@
 //Agrega un Vertice con un id al grafo si este no existe y lo devuelve.
 //Si existe, solo lo devuelve.
 Vertice agregarVertice(Grafo grafo, u32 id){
+  u32 nVertices = grafo->nVertices;
+  u32 posicion = id%nVertices;
   //Como use calloc, si no existe el vertice el puntero tendra el valor 0.
-  if(grafo->vertices[id] == 0){
+  if(grafo->vertices[posicion] == 0){
     //Alloco memoria para el vertice.
     Vertice nuevoVertice = malloc(sizeof(struct _Vertice));
     //Seteo valores.
@@ -18,9 +20,33 @@ Vertice agregarVertice(Grafo grafo, u32 id){
     printf("Vertice Creado.\n");
     return nuevoVertice;
   }
-  //Si ya existe, solo lo retorno.
-  printf("Vertice Existente.\n");
-  return grafo->vertices[id];
+  if(grafo->vertices[posicion]->nombre == id){
+    //Si ya existe, solo lo retorno.
+    printf("Vertice Existente.\n");
+    return grafo->vertices[id];
+  }
+  for(uint i = 1;i<nVertices;i++){
+    if(grafo->vertices[(posicion+i)%nVertices] == 0){
+      //Alloco memoria para el vertice.
+      Vertice nuevoVertice = malloc(sizeof(struct _Vertice));
+      //Seteo valores.
+      nuevoVertice->nombre = id;
+      nuevoVertice->grado = 0;
+      nuevoVertice->color = 0;
+      //Alloco memoria para la lista de vecinos.
+      nuevoVertice->vecinos = malloc(sizeof(Vecino));
+      //Guardo el vertice en el Grafo y lo devuelvo.
+      grafo->vertices[posicion+i] = nuevoVertice;
+      printf("Vertice Creado.\n");
+      return nuevoVertice;
+    }
+    if(grafo->vertices[(posicion+i)%nVertices]->nombre == id){
+      printf("Vertice Existente\n");
+      return grafo->vertices[(posicion+i)%nVertices];
+    }
+  }
+  printf("No puedes agregar mas de %d vertices\n", nVertices);
+  return NULL;
 }
 
 /*Llamada con la entrada de consola de nueva arista.
@@ -30,6 +56,7 @@ int agregarArista(Grafo G, u32 v1, u32 v2){
   //Agrego vertices.
   Vertice vertice1 = agregarVertice(G,v1);
   Vertice vertice2 = agregarVertice(G,v2);
+  if(vertice1 == NULL || vertice2 == NULL) return -1;
   //Chequeo si ya son vecinos. Si lo son, la arista ya existia -> retorno.
   if(esVecino(G->vertices[v1],vertice2) || esVecino(G->vertices[v2],vertice1)){
     printf("Error arista ya existente\n");
