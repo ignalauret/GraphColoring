@@ -45,6 +45,8 @@ Grafo construirGrafo(){
   nAristas = checkIfNumber(nAristasString);
   nVertices = checkIfNumber(nVerticesString);
 
+  printf("Aca estoy\n");
+
   //Si no eran numeros, entonces atoi devuelve 0...
   //TODO: Se rompe si le paso un numero seguido de letras y numeros, toma el numero hasta la primer letra. Ej: 55fd98 = 55.
   if(nVertices == -1 || nAristas == -1){
@@ -125,7 +127,7 @@ Grafo construirGrafo(){
 
 void errorFormatoInvalido(Grafo G){
   //Libero el grafo que habia creado hasta ahora.
-  free(G->vertices);
+  if(G != NULL && G->vertices != NULL) free(G->vertices);
   free(G);
   //Printeo mensaje de error.
   printf("### Formato de Grafo Invalido ###\n### Revisar formato DIMACS ###\n" );
@@ -138,6 +140,6 @@ int checkIfNumber(char numero[]){
     numberCheck[i+1] = numero[i];
   }
   u32 ret = atoi(numberCheck);
-  if(ret == 0) return -1;
+  if(ret == 1) return -1;
   return atoi(numero);
 }

@@ -16,14 +16,14 @@ Vertice agregarVertice(Grafo grafo, u32 id){
     //Alloco memoria para la lista de vecinos.
     nuevoVertice->vecinos = malloc(sizeof(Vecino));
     //Guardo el vertice en el Grafo y lo devuelvo.
-    grafo->vertices[id] = nuevoVertice;
+    grafo->vertices[posicion] = nuevoVertice;
     printf("Vertice Creado.\n");
     return nuevoVertice;
   }
   if(grafo->vertices[posicion]->nombre == id){
     //Si ya existe, solo lo retorno.
     printf("Vertice Existente.\n");
-    return grafo->vertices[id];
+    return grafo->vertices[posicion];
   }
   for(uint i = 1;i<nVertices;i++){
     if(grafo->vertices[(posicion+i)%nVertices] == 0){
@@ -36,8 +36,8 @@ Vertice agregarVertice(Grafo grafo, u32 id){
       //Alloco memoria para la lista de vecinos.
       nuevoVertice->vecinos = malloc(sizeof(Vecino));
       //Guardo el vertice en el Grafo y lo devuelvo.
-      grafo->vertices[posicion+i] = nuevoVertice;
-      printf("Vertice Creado.\n");
+      grafo->vertices[(posicion+i)%nVertices] = nuevoVertice;
+      printf("Vertice Creado en posicion %d.\n",posicion+i);
       return nuevoVertice;
     }
     if(grafo->vertices[(posicion+i)%nVertices]->nombre == id){
@@ -56,15 +56,17 @@ int agregarArista(Grafo G, u32 v1, u32 v2){
   //Agrego vertices.
   Vertice vertice1 = agregarVertice(G,v1);
   Vertice vertice2 = agregarVertice(G,v2);
+  printf("1\n");
   if(vertice1 == NULL || vertice2 == NULL) return -1;
   //Chequeo si ya son vecinos. Si lo son, la arista ya existia -> retorno.
-  if(esVecino(G->vertices[v1],vertice2) || esVecino(G->vertices[v2],vertice1)){
+  if(esVecino(vertice1,vertice2) || esVecino(vertice2,vertice1)){
     printf("Error arista ya existente\n");
     return 0;
   }
+  printf("2\n");
   //Si no eran vecinos, los agrego como vecinos.
-  agregarVecino(G->vertices[v1],vertice2);
-  agregarVecino(G->vertices[v2],vertice1);
+  agregarVecino(vertice1,vertice2);
+  agregarVecino(vertice2,vertice1);
   return 1;
 }
 
