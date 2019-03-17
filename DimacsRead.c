@@ -1,5 +1,6 @@
 #include "def.h"
 
+//Funcion principal de lectura del grafo por standard input en formato DIMACS.
 Grafo construirGrafo(){
   //El grafo
   Grafo grafo;
@@ -40,12 +41,9 @@ Grafo construirGrafo(){
   //Escaneamos la linea a ver si tenemos 4 elementos.
   sscanf(buffer,"%s %s %s %s",p,edge,nAristasString,nVerticesString);
 
-
   //Convertimos los strings a numero (u32).
   nAristas = checkIfNumber(nAristasString);
   nVertices = checkIfNumber(nVerticesString);
-
-  printf("Aca estoy\n");
 
   //Si no eran numeros, entonces atoi devuelve 0...
   //TODO: Se rompe si le paso un numero seguido de letras y numeros, toma el numero hasta la primer letra. Ej: 55fd98 = 55.
@@ -54,23 +52,26 @@ Grafo construirGrafo(){
     return NULL;
   }
 
+  //Chequeamos si las aristas son correctas.
   if(nAristas > nVertices*(nVertices-1) /2){
     printf("Demasiadas Aristas\n");
     return NULL;
   }
 
   //Chequeamos si el segundo string es 'edge' (DIMACS).
-  if(strncmp(edge,"edge",4) != 0){
+  if(!compararChar(p,"edge",4)){
     errorFormatoInvalido(grafo);
     return NULL;
   }
+
   //Chequeamos si el primer string es 'p' (DIMACS).
-  if(strncmp(p,"p",1) != 0){
+  if(!compararChar(p,"p",1)){
     errorFormatoInvalido(grafo);
     return NULL;
   }
 
   printf("Aristas: %d, Vertices: %d\n", nAristas, nVertices );
+
   //Allocamos memoria para el grafo.
   grafo = malloc(sizeof(struct _Grafo));
   //Chequeamos si se alloco correctamente.
@@ -86,34 +87,39 @@ Grafo construirGrafo(){
     for(uint i = 0; i<nVertices; i++) grafo->orden[i] = i;
     grafo->nColores = 0;
   }
-  else printf("Error en la creacion del grafo\n");
+  else {
+    printf("Error en la creacion del grafo\n");
+    return NULL;
+  }
 
   //Leemos lineas hasta que ya tengamos nAristas BIEN ESCRITAS.
-  //Nota: Saltea las aristas cargadas que ya existian.
+  //Nota: Saltea las aristas cargadas que ya existan.
   while(counter < nAristas){
     if(fgets(buffer, bufsize, stdin) != NULL) {
       //Escaneamos la linea.
       sscanf(buffer, "%s %s %s", p, vertice1String, vertice2String);
+
       //Inicio chequeo de valores.
       vertice1 = checkIfNumber(vertice1String);
       vertice2 = checkIfNumber(vertice2String);
-
       if(vertice1 == -1 || vertice2 == -1){
         errorFormatoInvalido(grafo);
         return NULL;
       }
-
-      if(strncmp(p,"e",1) != 0){
+      if(!compararChar(p,"e",1)){
         errorFormatoInvalido(grafo);
         return NULL;
       }
-
-
       //Fin del chequeo.
+
       printf("Arista de %u a %u\n",vertice1,vertice2);
+
       //Solo sumamos al contador de aristas guardadas si no existia la arista.
       int incremento = agregarArista(grafo,vertice1, vertice2);
-      if(incremento == -1) return NULL;
+      if(incremento == -1){
+        errorFormatoInvalido(grafo);
+        return NULL;
+      }
       counter += incremento;
       printf("Vertices Restantes: %d\n",cantidadDeVerticesVacios(grafo));
     } else {
@@ -125,6 +131,7 @@ Grafo construirGrafo(){
   return grafo;
 }
 
+//Printea que se produjo un error y limpia la memoria que se haya utilizado.
 void errorFormatoInvalido(Grafo G){
   //Libero el grafo que habia creado hasta ahora.
   if(G != NULL && G->vertices != NULL) free(G->vertices);
@@ -133,13 +140,25 @@ void errorFormatoInvalido(Grafo G){
   printf("### Formato de Grafo Invalido ###\n### Revisar formato DIMACS ###\n" );
 }
 
+/*Devuelve -1 si no es un numero, o el numero si lo es.
+NOTA: Tuvimos que hacerlo de esta forma porque solo con el atoi,
+que devuelve 0 si no es un numero, no permitia ingresar el vertice 0*/
 int checkIfNumber(char numero[]){
-  char numberCheck[11];
-  numberCheck[0] = '1';
+  /*TempNumero donde guardo el string precedido de un '1'.
+  Si era un numero, sigue siendo un numero. Si no lo era, atoi devuelve un 1, ya que lee
+  de izquierda a derecha buscando numeros.*/
+  char tempNumero[11];
+  tempNumero[0] = '1';
+  //Copio el resto del string.
   for(uint i = 0;i<10;i++){
-    numberCheck[i+1] = numero[i];
+    tempNumero[i+1] = numero[i];
   }
-  u32 ret = atoi(numberCheck);
-  if(ret == 1) return -1;
+  //Chequeo si da 1. Si no da, devuelvo el atoi del original.
+  if(atoi(tempNumero) == 1) return -1;
   return atoi(numero);
+}
+
+
+bool compararChar(char input[], char correct[], int length){
+  return (strncmp(input,correct,length) != 0);
 }

@@ -20,12 +20,17 @@ Vertice agregarVertice(Grafo grafo, u32 id){
     printf("Vertice Creado.\n");
     return nuevoVertice;
   }
+  //Si no es 0, me fijo si es este mismo vertice que ya fue guardado.
   if(grafo->vertices[posicion]->nombre == id){
     //Si ya existe, solo lo retorno.
     printf("Vertice Existente.\n");
     return grafo->vertices[posicion];
   }
+  /*Si no lo es, busco el vertice hasta encontrarlo o encontrar un vertice en desuso.
+  NOTA: Si el vertice ya hubiera sido guardado, no podria estar despues de un vertice vacio,
+  ya que hubiera ocupado ese cundo fue creado (Porque nunca se borran vertices)*/
   for(uint i = 1;i<nVertices;i++){
+    //Si encuentro uno vacio lo creo aca.
     if(grafo->vertices[(posicion+i)%nVertices] == 0){
       //Alloco memoria para el vertice.
       Vertice nuevoVertice = malloc(sizeof(struct _Vertice));
@@ -40,14 +45,18 @@ Vertice agregarVertice(Grafo grafo, u32 id){
       printf("Vertice Creado en posicion %d.\n",posicion+i);
       return nuevoVertice;
     }
+    //Si encuentro el vertice lo devuelvo.
     if(grafo->vertices[(posicion+i)%nVertices]->nombre == id){
       printf("Vertice Existente\n");
       return grafo->vertices[(posicion+i)%nVertices];
     }
   }
+  /*Si el counter se acabo y no encontre ni vacio ni el vertice, significa que ya no tengo
+  espacio, por lo tanto esta queriendo agregar mas vertices de la cuenta*/
   printf("No puedes agregar mas de %d vertices\n", nVertices);
   return NULL;
 }
+
 
 /*Llamada con la entrada de consola de nueva arista.
   Agrega los dos vertices y la arista si no existen ya.
@@ -70,6 +79,7 @@ int agregarArista(Grafo G, u32 v1, u32 v2){
   return 1;
 }
 
+
 //Funcion que realmente agrega el vecino al vertice del grafo.
 void agregarVecino(Vertice vertice, Vertice vecino){
   //Alloco memoria para el nuevo vecino.
@@ -81,6 +91,7 @@ void agregarVecino(Vertice vertice, Vertice vecino){
   vertice->vecinos = nuevoVecino;
   vertice->grado++;
 }
+
 
 //Chequea si un vertice esta en la lista de vecinos de otro.
 bool esVecino(Vertice v1, Vertice v2){
@@ -94,6 +105,7 @@ bool esVecino(Vertice v1, Vertice v2){
   //Si es null, significa que termino el while sin encontrar nada. Sino, encontro algo.
   return vecino != NULL;
 }
+
 
 //Devuelve el vecino numero i del vertice si existe o null si no.
 Vertice vecinoNumero(Vertice v, u32 i){
@@ -110,6 +122,7 @@ Vertice vecinoNumero(Vertice v, u32 i){
   return vecino->vertice;
 }
 
+
 //Devuelve la cantidad de vertices que no hayan sido cargados en un grafo.
 int cantidadDeVerticesVacios(Grafo G){
   int counter = 0;
@@ -124,6 +137,7 @@ int cantidadDeVerticesVacios(Grafo G){
   return counter;
 }
 
+
 //Imprime informacion sobre el grafo por consola.
 void leerGrafo(Grafo G){
   //Recorro todo el arreglo de vertices.
@@ -131,6 +145,7 @@ void leerGrafo(Grafo G){
     printVecinos(G->vertices[i]);
   }
 }
+
 
 void printVecinos(Vertice v){
   if(v == NULL) return;

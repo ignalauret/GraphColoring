@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 typedef unsigned int u32;
 
@@ -53,5 +54,7 @@ void printVecinos(Vertice v);
 void leerGrafo(Grafo g);
 
 int checkIfNumber(char nummero[]);
+
+bool compararChar(char input[], char correct[], int length);
 
 #endif
