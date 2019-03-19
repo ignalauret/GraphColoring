@@ -59,7 +59,7 @@ Grafo construirGrafo(){
   }
 
   //Chequeamos si el segundo string es 'edge' (DIMACS).
-  if(!compararChar(p,"edge",4)){
+  if(!compararChar(edge,"edge",4)){
     errorFormatoInvalido(grafo);
     return NULL;
   }
@@ -160,5 +160,5 @@ int checkIfNumber(char numero[]){
 
 
 bool compararChar(char input[], char correct[], int length){
-  return (strncmp(input,correct,length) != 0);
+  return (strncmp(input,correct,length) == 0);
 }
