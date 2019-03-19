@@ -4,7 +4,7 @@
 //Si existe, solo lo devuelve.
 Vertice agregarVertice(Grafo grafo, u32 id){
   u32 nVertices = grafo->nVertices;
-  u32 posicion = id%nVertices;
+  u32 posicion = hashFunc(id,nVertices);
   //Como use calloc, si no existe el vertice el puntero tendra el valor 0.
   if(grafo->vertices[posicion] == 0){
     //Alloco memoria para el vertice.
@@ -106,7 +106,6 @@ bool esVecino(Vertice v1, Vertice v2){
   return vecino != NULL;
 }
 
-
 //Devuelve el vecino numero i del vertice si existe o null si no.
 Vertice vecinoNumero(Vertice v, u32 i){
   u32 counter = 0;
@@ -162,4 +161,9 @@ void printVecinos(Vertice v){
     printf("%d\n", listo );
     actual = actual->siguienteVecino;
   }
+}
+
+//TODO: Por ahora solo tomo modulo. Implementar funcon Hash.
+u32 hashFunc(u32 id, u32 v){
+  return id%v;
 }

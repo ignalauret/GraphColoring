@@ -15,6 +15,7 @@ typedef struct _Vecino *Vecino;
 
   struct _Vertice {
     u32 nombre;
+    u32 hash;
     u32 grado;
     u32 color;
     Vecino vecinos;
