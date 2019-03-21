@@ -18,13 +18,10 @@ typedef struct _Vecino *Vecino;
     u32 hash;
     u32 grado;
     u32 color;
-    Vecino vecinos;
+    u32 capacidadVecinos;
+    Vertice *vecinos;
   };
 
-  struct _Vecino {
-    Vertice vertice;
-    Vecino siguienteVecino;
-  };
 
   struct _Grafo {
     u32 nAristas;
@@ -57,5 +54,7 @@ void leerGrafo(Grafo g);
 int checkIfNumber(char nummero[]);
 
 bool compararChar(char input[], char correct[], int length);
+
+u32 hashFunc(u32 id, u32 v);
 
 #endif

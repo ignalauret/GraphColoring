@@ -1,5 +1,7 @@
 #include "def.h"
 
+
+
 //Agrega un Vertice con un id al grafo si este no existe y lo devuelve.
 //Si existe, solo lo devuelve.
 Vertice agregarVertice(Grafo grafo, u32 id){
@@ -14,7 +16,8 @@ Vertice agregarVertice(Grafo grafo, u32 id){
     nuevoVertice->grado = 0;
     nuevoVertice->color = 0;
     //Alloco memoria para la lista de vecinos.
-    nuevoVertice->vecinos = malloc(sizeof(Vecino));
+    nuevoVertice->vecinos = (Vertice*)malloc(sizeof(Vertice));
+    nuevoVertice->capacidadVecinos = 1;
     //Guardo el vertice en el Grafo y lo devuelvo.
     grafo->vertices[posicion] = nuevoVertice;
     printf("Vertice Creado.\n");
@@ -39,7 +42,8 @@ Vertice agregarVertice(Grafo grafo, u32 id){
       nuevoVertice->grado = 0;
       nuevoVertice->color = 0;
       //Alloco memoria para la lista de vecinos.
-      nuevoVertice->vecinos = malloc(sizeof(Vecino));
+      nuevoVertice->vecinos = (Vertice*)malloc(sizeof(Vertice));
+      nuevoVertice->capacidadVecinos = 1;
       //Guardo el vertice en el Grafo y lo devuelvo.
       grafo->vertices[(posicion+i)%nVertices] = nuevoVertice;
       printf("Vertice Creado en posicion %d.\n",posicion+i);
@@ -82,43 +86,36 @@ int agregarArista(Grafo G, u32 v1, u32 v2){
 
 //Funcion que realmente agrega el vecino al vertice del grafo.
 void agregarVecino(Vertice vertice, Vertice vecino){
-  //Alloco memoria para el nuevo vecino.
-  Vecino nuevoVecino = malloc(sizeof(struct _Vecino));
-  //Seteo valores.
-  nuevoVecino->vertice = vecino;
-  nuevoVecino->siguienteVecino = vertice->vecinos;
-  //Guardo el vecino y aumento el grado del vertice porque tiene un nuevo vecino.
-  vertice->vecinos = nuevoVecino;
+  u32 i = vertice->grado;
+  if(i == vertice->capacidadVecinos) {
+    vertice->capacidadVecinos *=2;
+    vertice->vecinos = realloc( vertice->vecinos, vertice->capacidadVecinos * sizeof(Vertice));
+  }
+  vertice->vecinos[i] = vecino;
   vertice->grado++;
 }
 
 
 //Chequea si un vertice esta en la lista de vecinos de otro.
 bool esVecino(Vertice v1, Vertice v2){
-  Vecino vecino = v1->vecinos;
-  //Mientras existan mas vecinos en la lista que no haya revisado, continuo buscando.
-  while(vecino != NULL){
-    //Si encuentro a v2 en la lista de vecinos, listo.
-    if(vecino->vertice == v2) break;
-    vecino = vecino->siguienteVecino;
+  for (int i = 0; i < v1->capacidadVecinos; i++) {
+    if ( v1->vecinos[i] == v2 ) return true;
   }
-  //Si es null, significa que termino el while sin encontrar nada. Sino, encontro algo.
-  return vecino != NULL;
+  return false;
 }
 
-//Devuelve el vecino numero i del vertice si existe o null si no.
-Vertice vecinoNumero(Vertice v, u32 i){
-  u32 counter = 0;
-  Vecino vecino = v->vecinos;
-  //Recorro la lista de vecinos hasta que se acabe (== null) o hasta llegar al indice buscado.
-  while(vecino != NULL && counter < i){
-    vecino = vecino->siguienteVecino;
-    counter++;
-  }
-  //Si llegue al final significa que no encontre nada.
-  if(vecino == NULL) return NULL;
-  //Si encontre algo, tiene que ser porque el contador lo detuvo -> encontre el vecino i.
-  return vecino->vertice;
+//RETORNA NOMBRE VECINO JESTI
+u32 NombreJotaesimoVecino(Grafo G, u32 i, u32 j){
+  Vertice c = G->vertices[i];
+  Vertice vecino = c->vecinos[j];
+  return vecino->nombre;
+}
+
+//RETORNA COLOR VECINO JESTI
+u32  ColorJotaesimoVecino(Grafo G, u32 i, u32 j){
+  Vertice c = G->vertices[i];
+  Vertice vecino = c->vecinos[j];
+  return vecino->color;
 }
 
 
@@ -149,17 +146,9 @@ void leerGrafo(Grafo G){
 void printVecinos(Vertice v){
   if(v == NULL) return;
   printf("Vertice numero: %d Grado: %d Vecinos:\n", v->nombre , v->grado);
-  Vecino actual = v->vecinos;
-  //Si el primer vecino es null -> no tiene vecinos.
-  if(actual == NULL) {
-    printf("No tiene vecinos\n");
-    return;
-  }
-  //Recorro la lista de vecinos imprimiendo sus nombres.
-  while( actual->siguienteVecino != NULL ) {
-    u32 listo = actual->vertice->nombre;
-    printf("%d\n", listo );
-    actual = actual->siguienteVecino;
+  for (int i = 0; i < v->capacidadVecinos; i++) {
+    u32 act = v->vecinos[i]->nombre;
+    printf("%d\n", act);
   }
 }
 
