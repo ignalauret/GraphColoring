@@ -57,4 +57,6 @@ bool compararChar(char input[], char correct[], int length);
 
 u32 hashFunc(u32 id, u32 v);
 
+u32 Greedy(Grafo G);
+
 #endif

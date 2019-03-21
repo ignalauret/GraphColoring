@@ -20,13 +20,11 @@ Vertice agregarVertice(Grafo grafo, u32 id){
     nuevoVertice->capacidadVecinos = 1;
     //Guardo el vertice en el Grafo y lo devuelvo.
     grafo->vertices[posicion] = nuevoVertice;
-    printf("Vertice Creado.\n");
     return nuevoVertice;
   }
   //Si no es 0, me fijo si es este mismo vertice que ya fue guardado.
   if(grafo->vertices[posicion]->nombre == id){
     //Si ya existe, solo lo retorno.
-    printf("Vertice Existente.\n");
     return grafo->vertices[posicion];
   }
   /*Si no lo es, busco el vertice hasta encontrarlo o encontrar un vertice en desuso.
@@ -46,12 +44,10 @@ Vertice agregarVertice(Grafo grafo, u32 id){
       nuevoVertice->capacidadVecinos = 1;
       //Guardo el vertice en el Grafo y lo devuelvo.
       grafo->vertices[(posicion+i)%nVertices] = nuevoVertice;
-      printf("Vertice Creado en posicion %d.\n",posicion+i);
       return nuevoVertice;
     }
     //Si encuentro el vertice lo devuelvo.
     if(grafo->vertices[(posicion+i)%nVertices]->nombre == id){
-      printf("Vertice Existente\n");
       return grafo->vertices[(posicion+i)%nVertices];
     }
   }
@@ -69,14 +65,12 @@ int agregarArista(Grafo G, u32 v1, u32 v2){
   //Agrego vertices.
   Vertice vertice1 = agregarVertice(G,v1);
   Vertice vertice2 = agregarVertice(G,v2);
-  printf("1\n");
   if(vertice1 == NULL || vertice2 == NULL) return -1;
   //Chequeo si ya son vecinos. Si lo son, la arista ya existia -> retorno.
   if(esVecino(vertice1,vertice2) || esVecino(vertice2,vertice1)){
     printf("Error arista ya existente\n");
     return 0;
   }
-  printf("2\n");
   //Si no eran vecinos, los agrego como vecinos.
   agregarVecino(vertice1,vertice2);
   agregarVecino(vertice2,vertice1);
@@ -149,11 +143,12 @@ void leerGrafo(Grafo G){
 void printVecinos(Vertice v){
   if(v == NULL) return;
   //Si no existe printea el grado, nombre y vecinos
-  printf("Vertice numero: %d Grado: %d Vecinos:\n", v->nombre , v->grado);
+  printf("Vertice numero: %d Grado: %d Color: %d \nVecinos:", v->nombre , v->grado, v->color);
   for (int i = 0; i < v->capacidadVecinos; i++) {
     u32 act = v->vecinos[i]->nombre;
-    printf("%d\n", act);
+    printf(" %d", act);
   }
+  printf("\n\n");
 }
 
 //TODO: Por ahora solo tomo modulo. Implementar funcon Hash.

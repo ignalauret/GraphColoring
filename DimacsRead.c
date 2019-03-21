@@ -33,9 +33,7 @@ Grafo construirGrafo(){
       printf("Error en la lectura.");
       return NULL;
     }
-      printf("Es un comentario.\n");
   }
-  printf("Fin de los comentarios.\n");
 
   //Si salgo del while, entonces no empieza con 'c', chequeamos si es del a forma correcta (DIMACS).
   //Escaneamos la linea a ver si tenemos 4 elementos.
@@ -76,7 +74,6 @@ Grafo construirGrafo(){
   grafo = malloc(sizeof(struct _Grafo));
   //Chequeamos si se alloco correctamente.
   if(grafo != NULL) {
-    printf("Grafo Creado con exito.\n");
     grafo->nAristas = nAristas;
     grafo->nVertices = nVertices;
     //Allocamos lugar para los n Vertices (Punteros a la estructura).
@@ -112,8 +109,6 @@ Grafo construirGrafo(){
       }
       //Fin del chequeo.
 
-      printf("Arista de %u a %u\n",vertice1,vertice2);
-
       //Solo sumamos al contador de aristas guardadas si no existia la arista.
       int incremento = agregarArista(grafo,vertice1, vertice2);
       if(incremento == -1){
@@ -121,7 +116,6 @@ Grafo construirGrafo(){
         return NULL;
       }
       counter += incremento;
-      printf("Vertices Restantes: %d\n",cantidadDeVerticesVacios(grafo));
     } else {
       errorFormatoInvalido(grafo);
       return NULL;
