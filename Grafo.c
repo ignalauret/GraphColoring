@@ -88,9 +88,12 @@ int agregarArista(Grafo G, u32 v1, u32 v2){
 void agregarVecino(Vertice vertice, Vertice vecino){
   u32 i = vertice->grado;
   if(i == vertice->capacidadVecinos) {
+    //Si el arreglo se lleno, duplico su tamaño
     vertice->capacidadVecinos *=2;
+    //Realoco el arreglo completo
     vertice->vecinos = realloc( vertice->vecinos, vertice->capacidadVecinos * sizeof(Vertice));
   }
+  //Agrego el vecino y sumo uno al grado
   vertice->vecinos[i] = vecino;
   vertice->grado++;
 }
@@ -145,6 +148,7 @@ void leerGrafo(Grafo G){
 
 void printVecinos(Vertice v){
   if(v == NULL) return;
+  //Si no existe printea el grado, nombre y vecinos
   printf("Vertice numero: %d Grado: %d Vecinos:\n", v->nombre , v->grado);
   for (int i = 0; i < v->capacidadVecinos; i++) {
     u32 act = v->vecinos[i]->nombre;
