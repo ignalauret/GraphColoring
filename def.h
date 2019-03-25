@@ -59,4 +59,6 @@ u32 hashFunc(u32 id, u32 v);
 
 u32 Greedy(Grafo G);
 
+void ResetColores(Grafo G);
+
 #endif

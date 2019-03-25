@@ -155,3 +155,14 @@ void printVecinos(Vertice v){
 u32 hashFunc(u32 id, u32 v){
   return id%v;
 }
+
+void ResetColores(Grafo G){
+  u32 nVertices = G->nVertices;
+  for(uint i = 0; i<nVertices; i++){
+    Vertice vertice = G->vertices[i];
+    u32 nVecinos = vertice->grado;
+    for(uint j = 0; j<nVecinos; j++){
+      vertice->vecinos[j]->color = 0;
+    }
+  }
+}
