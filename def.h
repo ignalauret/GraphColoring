@@ -28,7 +28,6 @@ typedef struct _Vecino *Vecino;
     u32 nVertices;
     u32 nColores;
     Vertice *vertices;
-    u32 *orden;
   };
 
 void errorFormatoInvalido(Grafo G);
@@ -60,5 +59,31 @@ u32 hashFunc(u32 id, u32 v);
 u32 Greedy(Grafo G);
 
 void ResetColores(Grafo G);
+
+int Bipartito(Grafo G);
+
+int dfsCheck(Vertice V, u32 color);
+
+void printOrden(Grafo G);
+
+char OrdenNatural(Grafo G);
+
+int ComparadorNatural(const void * a, const void * b);
+
+char OrdenWelshPowell(Grafo G);
+
+int ComparadorWelshPowell(const void * a, const void * b);
+
+char OrdenRMBCnormal(Grafo G);
+
+int ComparadorRMBCnormal(const void * a, const void * b);
+
+char OrdenRMBCrevierte(Grafo G);
+
+int ComparadorRMBCrevierte(const void* a, const void* b);
+
+char OrdenRMBCchicogrande(Grafo G);
+
+int ComparadorRMBCchicogrande(const void* a, const void* b);
 
 #endif

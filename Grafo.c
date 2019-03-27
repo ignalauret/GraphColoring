@@ -139,12 +139,11 @@ void leerGrafo(Grafo G){
   }
 }
 
-
 void printVecinos(Vertice v){
   if(v == NULL) return;
   //Si no existe printea el grado, nombre y vecinos
   printf("Vertice numero: %d Grado: %d Color: %d \nVecinos:", v->nombre , v->grado, v->color);
-  for (int i = 0; i < v->capacidadVecinos; i++) {
+  for (int i = 0; i < v->grado; i++) {
     u32 act = v->vecinos[i]->nombre;
     printf(" %d", act);
   }
@@ -162,7 +161,7 @@ void ResetColores(Grafo G){
     Vertice vertice = G->vertices[i];
     u32 nVecinos = vertice->grado;
     for(uint j = 0; j<nVecinos; j++){
-      vertice->vecinos[j]->color = 0;
+      vertice->vecinos[j]->color = -1;
     }
   }
 }

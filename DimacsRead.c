@@ -78,10 +78,6 @@ Grafo construirGrafo(){
     grafo->nVertices = nVertices;
     //Allocamos lugar para los n Vertices (Punteros a la estructura).
     grafo->vertices = calloc(nVertices,sizeof(Vertice));
-    //Allocamos lugar para el array de numeros para el orden de greedy.
-    grafo->orden = malloc(nVertices*sizeof(u32));
-    //Seteamos el orden inicial como el orden en el que entran.
-    for(uint i = 0; i<nVertices; i++) grafo->orden[i] = i;
     grafo->nColores = 0;
   }
   else {
