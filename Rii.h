@@ -53,6 +53,7 @@ u32 HashFunc(u32 id, u32 v);
 
 void ResetColores(Grafo G);
 
+
 /* GrafoInformacion.c */
 
 u32 NumeroDeVertices(Grafo G);
@@ -110,5 +111,7 @@ int ComparadorRMBCrevierte(const void* a, const void* b);
 char OrdenRMBCchicogrande(Grafo G);
 
 int ComparadorRMBCchicogrande(const void* a, const void* b);
+
+char SwitchColores(Grafo G, u32 i, u32 j);
 
 #endif

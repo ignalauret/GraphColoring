@@ -12,6 +12,10 @@ int main(void){
   printf("Greedy pinto con %d colores\n", colores);
   LeerGrafo(grafo);
 
+  printf("Haciendo switch de los colores 0 y 2\n");
+  SwitchColores(grafo,0,2);
+  LeerGrafo(grafo);
+
   printf("Orden RMBCnormal\n");
   OrdenRMBCnormal(grafo);
   LeerGrafo(grafo);

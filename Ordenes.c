@@ -74,3 +74,12 @@ int ComparadorRMBCchicogrande(const void* a, const void* b){
   if(punteroColores[(*(Vertice*)a)->color] == punteroColores[(*(Vertice*)b)->color]) return 0;
   return -1;
 }
+
+/* Cambia el color de los vertices del grafo de color i a j, y viceversa */
+char SwitchColores(Grafo G, u32 i, u32 j){
+  if(i > NumeroDeColores(G) || j > NumeroDeColores(G)) return 1;
+  for(u32 h = 0; h < G->nVertices; h++){
+    if(G->vertices[h]->color == i) G->vertices[h]->color = j;
+    else if(G->vertices[h]->color == j) G->vertices[h]->color = i;
+  }
+}

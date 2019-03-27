@@ -33,6 +33,7 @@ u32 Greedy(Grafo G){
     /* Si lo pinte del ultimo color, agregue un nuevo color por lo tanto incremento el contador. */
     if(color == nColores) nColores++;
   }
+  G->nColores = nColores;
   /* Retorno la cantidad de colores final. */
   return nColores;
 }
