@@ -1,9 +1,17 @@
-#include "def.h"
+#include "Rii.h"
 
+/* Arreglo global porque no puedo pasarle otro parametro a las funciones comparadoras */
 u32* punteroColores;
 
+/* Toma el grafo y el la funcion de comparacion y ordena los vertices */
+void Ordenar(Grafo G, int (*compar)(const void *, const void*)){
+  qsort(G->vertices,G->nVertices,sizeof(Vertice),compar);
+}
+
+/* Orden natural (Por Nombre de vertice, Creciente) */
 char OrdenNatural(Grafo G){
-  qsort(G->vertices,G->nVertices,sizeof(Vertice),ComparadorNatural);
+  Ordenar(G,ComparadorNatural);
+  return 0;
 }
 
 int ComparadorNatural(const void* a, const void* b){
@@ -12,8 +20,10 @@ int ComparadorNatural(const void* a, const void* b){
   return -1;
 }
 
+/* Orden WelshPowell (Por grado, Decreciente) */
 char OrdenWelshPowell(Grafo G){
-  qsort(G->vertices,G->nVertices,sizeof(Vertice),ComparadorWelshPowell);
+  Ordenar(G,ComparadorWelshPowell);
+  return 0;
 }
 
 int ComparadorWelshPowell(const void* a, const void* b){
@@ -22,8 +32,10 @@ int ComparadorWelshPowell(const void* a, const void* b){
   return -1;
 }
 
+/* Orden RMBCnormal (Por colores, Creciente) */
 char OrdenRMBCnormal(Grafo G){
-  qsort(G->vertices,G->nVertices,sizeof(Vertice),ComparadorRMBCnormal);
+  Ordenar(G,ComparadorRMBCnormal);
+  return 0;
 }
 
 int ComparadorRMBCnormal(const void* a, const void* b){
@@ -32,8 +44,10 @@ int ComparadorRMBCnormal(const void* a, const void* b){
   return -1;
 }
 
+/* Orden RMBCrevierte (Por colores, Decreciente) */
 char OrdenRMBCrevierte(Grafo G){
-  qsort(G->vertices,G->nVertices,sizeof(Vertice),ComparadorRMBCrevierte);
+  Ordenar(G,ComparadorRMBCrevierte);
+  return 0;
 }
 
 int ComparadorRMBCrevierte(const void* a, const void* b){
@@ -42,12 +56,17 @@ int ComparadorRMBCrevierte(const void* a, const void* b){
   return -1;
 }
 
+/* Orden RMBCchicogrande (Por colores, Cantidad de vertices del color, Decreciente) */
 char OrdenRMBCchicogrande(Grafo G){
+  /* Creo el arreglo de la cantidad de vertices de cada color global para usar en el comparador */
   punteroColores = calloc(G->nColores, sizeof(u32));
   for(uint j = 0; j<G->nVertices;j++){
     punteroColores[G->vertices[j]->color]++;
   }
-  qsort(G->vertices,G->nVertices,sizeof(Vertice),ComparadorRMBCchicogrande);
+  Ordenar(G,ComparadorRMBCchicogrande);
+  /* Libero el arreglo */
+  free(punteroColores);
+  return 0;
 }
 
 int ComparadorRMBCchicogrande(const void* a, const void* b){
