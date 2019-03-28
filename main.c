@@ -10,34 +10,20 @@ int main(void){
 
   u32 colores = Greedy(grafo);
   printf("Greedy pinto con %d colores\n", colores);
-  LeerGrafo(grafo);
 
-  printf("Haciendo switch de los colores 0 y 2\n");
-  SwitchColores(grafo,0,2);
   LeerGrafo(grafo);
-
-  printf("Orden RMBCnormal\n");
   OrdenRMBCnormal(grafo);
   LeerGrafo(grafo);
+  colores = Greedy(grafo);
+  printf("Greedy con Orden RMBCnormal pinto con %u colores\n", colores);
 
-  printf("Orden RMBCrevierte\n");
-  OrdenRMBCrevierte(grafo);
-  LeerGrafo(grafo);
-
-  printf("Orden RMBCchicogrande\n");
-  OrdenRMBCchicogrande(grafo);
-  LeerGrafo(grafo);
-
-  if(Bipartito(grafo)) printf("Es Bipartito\n");
-  else printf("No es Bipartito\n");
-
-  printf("Orden WelshPowell\n");
-  OrdenWelshPowell(grafo);
-  LeerGrafo(grafo);
-
-  printf("Orden Natural\n");
   OrdenNatural(grafo);
-  LeerGrafo(grafo);
+  colores = Greedy(grafo);
+  printf("Greedy con Orden Natural pinto con %u colores\n", colores);
+
+  OrdenWelshPowell(grafo);
+  colores = Greedy(grafo);
+  printf("Greedy con Orden WelshPowell pinto con %u colores\n", colores);
 
   free(grafo);
   return 0;

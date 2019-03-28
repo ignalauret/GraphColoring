@@ -68,8 +68,9 @@ int AgregarArista(Grafo G, u32 v1, u32 v2){
   /* Verifico si alguno dio NULL */
   if(vertice1 == NULL || vertice2 == NULL) return -1;
   /* Chequeo si ya son vecinos. Si lo son, la arista ya existia -> retorno. */
-  if(EsVecino(vertice1,vertice2) || EsVecino(vertice2,vertice1)){
-    printf("Error arista ya existente\n");
+  if(EsVecino(vertice1,vertice2)){
+    printf("Error arista [%u,%u] ya existente\n",vertice1->nombre, vertice2->nombre);
+    PrintVecinos(vertice1);
     return 0;
   }
   /* Si no eran vecinos, los agrego como vecinos. */

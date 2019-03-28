@@ -14,10 +14,10 @@ Grafo ConstruccionDelGrafo(){
   /* Variables para construir el grafo. */
   u32 vertice1;
   u32 vertice2;
-  char vertice1String[10];
-  char vertice2String[10];
-  char nAristasString[10];
-  char nVerticesString[10];
+  char vertice1String[12];
+  char vertice2String[12];
+  char nAristasString[12];
+  char nVerticesString[12];
   u32 nLineas = 0;
   /* Variables para guardar el texto. */
   char buffer[bufsize];
@@ -37,7 +37,7 @@ Grafo ConstruccionDelGrafo(){
 
   /* Si salgo del while, entonces no empieza con 'c', chequeamos si es del a forma correcta (DIMACS).
      Escaneamos la linea a ver si tenemos 4 elementos. */
-  sscanf(buffer,"%s %s %s %s",p,edge,nAristasString,nVerticesString);
+  sscanf(buffer,"%s %s %s %s",p,edge,nVerticesString,nAristasString);
 
   /********* Inicio chequeo de valores. *********/
 
@@ -101,6 +101,7 @@ Grafo ConstruccionDelGrafo(){
       /********* Inicio chequeo de valores. *********/
       vertice1 = CheckIfNumber(vertice1String);
       vertice2 = CheckIfNumber(vertice2String);
+
       if(vertice1 == -1 || vertice2 == -1){
         ErrorLecturaLinea(G,nLineas);
         return NULL;
@@ -158,10 +159,10 @@ int CheckIfNumber(char numero[]){
   Si era un numero, sigue siendo un numero. Si no lo era, atoi devuelve un 1, ya que lee
   de izquierda a derecha buscando numeros.
   El tamaño es 11 ya que 2^32 tiene 10 digitos +1 del 1 agregado */
-  char tempNumero[11];
+  char tempNumero[13];
   tempNumero[0] = '1';
   /* Copio el resto del string. */
-  for(uint i = 0;i<10;i++){
+  for(uint i = 0;i<12;i++){
     tempNumero[i+1] = numero[i];
   }
   /* Chequeo si da 1. Si no da, devuelvo el atoi del original. */
