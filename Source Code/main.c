@@ -10,10 +10,9 @@ int main(void){
 
   u32 colores = Greedy(grafo);
   printf("Greedy pinto con %d colores\n", colores);
-
   LeerGrafo(grafo);
+  if(Bipartito(grafo) == 1) printf("Es Bipartito\n");
   OrdenRMBCnormal(grafo);
-  LeerGrafo(grafo);
   colores = Greedy(grafo);
   printf("Greedy con Orden RMBCnormal pinto con %u colores\n", colores);
 

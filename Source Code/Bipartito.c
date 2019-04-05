@@ -6,8 +6,14 @@ int Bipartito(Grafo G){
   u32 counter = 0;
   u32 nVertices = G->nVertices;
 
-  /* Comienzo la recursion en el vertice 0 (Podria ser en cualquiera) */
-  int dfsCheckInt = DfsCheck(G->vertices[0],0);
+  Vertice verticeInicial;
+  int dfsCheckInt = 0;
+
+  /* Corro una vez Bipartito para cada componente conexa */
+  while((verticeInicial = checkAllColored(G)) != NULL){
+    /* Comienzo la recursion con un vertice que no este pintado aun */
+    dfsCheckInt += DfsCheck(verticeInicial,0);
+  }
 
   /* dfsCheck devuelve -1 si estaba pintado del color incorrecto, por lo tanto
      la suma no dara la cantidad de vertices si alguno estuvo mal pintado */
@@ -16,6 +22,14 @@ int Bipartito(Grafo G){
   /* Sino, no es bipartito. Pinto con Greedy y retorno 0 */
   Greedy(G);
   return 0;
+}
+
+/* Retorna el primer vertice no pintado que encuentra */
+Vertice checkAllColored(Grafo G){
+  for(uint i = 0; i < G->nVertices; i++){
+    if(G->vertices[i]->color == -1) return G->vertices[i];
+  }
+  return NULL;
 }
 
 /* Recursivo. De ser bipartito, dfsCheck de cualquier vertice deberia devolver

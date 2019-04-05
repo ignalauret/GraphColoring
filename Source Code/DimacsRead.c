@@ -4,8 +4,8 @@
 Grafo ConstruccionDelGrafo(){
   /* El grafo */
   Grafo G;
-  /* Largo maximo de los comentarios = 80. */
-  int bufsize = 80;
+  /* Largo maximo de los comentarios = 80 +1 por el /0 que agrega fgets */
+  int bufsize = 81;
 
   /* Variables para crear el grafo. */
   u32 nAristas;
@@ -37,6 +37,7 @@ Grafo ConstruccionDelGrafo(){
 
   /* Si salgo del while, entonces no empieza con 'c', chequeamos si es del a forma correcta (DIMACS).
      Escaneamos la linea a ver si tenemos 4 elementos. */
+
   sscanf(buffer,"%s %s %s %s",p,edge,nVerticesString,nAristasString);
 
   /********* Inicio chequeo de valores. *********/
@@ -173,4 +174,24 @@ int CheckIfNumber(char numero[]){
 /* Compara dos cadenas de caracteres y retorna true si son iguales */
 bool CompararChar(char input[], char correct[], int length){
   return (strncmp(input,correct,length) == 0);
+}
+
+/* Chequea si el buffer es una linea entera, osea si tiene un '\n' */
+u32 checkLineEnd(char *buffer, u32 bufsize, u32 nChar){
+  u32 i = 0;
+  u32 charCounter = 0;
+  char obs;
+  while((obs = buffer[i]) != '\n'){
+    if(isLetter(obs)) charCounter++;
+    i++;
+  }
+  if(charCounter > nChar) return 2;
+  if(i < bufsize) return 1;
+  return 0;
+
+}
+
+/* Chequea si el caracter es una letra */
+bool isLetter(char ch){
+  return ((ch>='a' && ch<='z') || (ch>='A' && ch<='Z'));
 }

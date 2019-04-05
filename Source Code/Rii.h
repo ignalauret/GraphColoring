@@ -74,7 +74,9 @@ void PrintVecinos(Vertice v);
 
 void LeerGrafo(Grafo g);
 
+bool isLetter(char ch);
 
+uint checkLineEnd(char* buffer, u32 bufSize, u32 nChar);
 
 
 /* Greedy.c */
@@ -86,6 +88,8 @@ u32 Greedy(Grafo G);
 int Bipartito(Grafo G);
 
 int DfsCheck(Vertice V, u32 color);
+
+Vertice checkAllColored(Grafo G);
 
 
 /* Ordenes.c */
