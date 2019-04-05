@@ -93,6 +93,15 @@ void AgregarVecino(Vertice vertice, Vertice vecino){
   vertice->grado++;
 }
 
+void DestruirGrafo(Grafo G){
+  for(uint i = 0; i < G->nVertices; i++){
+    free(G->vertices[i]->vecinos);
+    free(G->vertices[i]);
+  }
+  free(G->vertices);
+  free(G);
+}
+
 //TODO: Por ahora solo tomo modulo. Implementar funcon Hash.
 u32 HashFunc(u32 id, u32 v){
   return id%v;

@@ -82,4 +82,5 @@ char SwitchColores(Grafo G, u32 i, u32 j){
     if(G->vertices[h]->color == i) G->vertices[h]->color = j;
     else if(G->vertices[h]->color == j) G->vertices[h]->color = i;
   }
+  return 0;
 }

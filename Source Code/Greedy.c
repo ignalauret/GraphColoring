@@ -7,15 +7,9 @@ u32 Greedy(Grafo G){
   /* Main Loop, una vez por cada vertice. */
   for(u32 i = 0; i<nVertices; i++){
     Vertice vertice = G->vertices[i];
-    u32 colores[nColores];
-    bool coloresUsados[nColores];
-    /*Inicializo arreglo de los colores posibles.
-      El peor caso seria usar un color no usado hasta ahora (el color numero nColores) */
-    for(u32 j = 0; j<nColores; j++){
-      colores[j] = j;
-    }
+    bool coloresUsados[nColores+1];
     /* Inicializo arreglo de bools de colores usados en false. */
-    for(u32 j = 0; j<nColores; j++){
+    for(u32 j = 0; j<nColores+1; j++){
       coloresUsados[j] = false;
     }
     /* Seteo los colores usados por los vecinos a True y el resto queda en False. */
@@ -23,7 +17,6 @@ u32 Greedy(Grafo G){
       Vertice verticeObservado = verticesUsados[h];
       coloresUsados[verticeObservado->color] |= EsVecino(vertice,verticeObservado);
     }
-
     u32 color = 0;
     /* Busco el primer color que este en false o hasta llegar al ultimo color. */
     while(coloresUsados[color] && color<nColores) color++;

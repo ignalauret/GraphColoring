@@ -53,6 +53,8 @@ u32 HashFunc(u32 id, u32 v);
 
 void ResetColores(Grafo G);
 
+void DestruirGrafo(Grafo G);
+
 
 /* GrafoInformacion.c */
 

@@ -76,7 +76,7 @@ void PrintVecinos(Vertice v){
   if(v == NULL) return;
   /* Si existe printea el grado, nombre y vecinos */
   printf("Vertice numero: %u Grado: %u Color: %u \nSus vecino son:", v->nombre , v->grado, v->color);
-  for (int i = 0; i < v->grado; i++) {
+  for (uint i = 0; i < v->grado; i++) {
     u32 act = v->vecinos[i]->nombre;
     printf(" %u", act);
   }

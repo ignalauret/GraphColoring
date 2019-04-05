@@ -3,11 +3,10 @@
 int Bipartito(Grafo G){
   /* Reseteo colores a -1 */
   ResetColores(G);
-  u32 counter = 0;
   u32 nVertices = G->nVertices;
 
   Vertice verticeInicial;
-  int dfsCheckInt = 0;
+  u32 dfsCheckInt = 0;
 
   /* Corro una vez Bipartito para cada componente conexa */
   while((verticeInicial = checkAllColored(G)) != NULL){
@@ -27,7 +26,7 @@ int Bipartito(Grafo G){
 /* Retorna el primer vertice no pintado que encuentra */
 Vertice checkAllColored(Grafo G){
   for(uint i = 0; i < G->nVertices; i++){
-    if(G->vertices[i]->color == -1) return G->vertices[i];
+    if(G->vertices[i]->color == (u32)-1) return G->vertices[i];
   }
   return NULL;
 }

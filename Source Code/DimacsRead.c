@@ -3,7 +3,7 @@
 /* Funcion principal de lectura del grafo por standard input en formato DIMACS. */
 Grafo ConstruccionDelGrafo(){
   /* El grafo */
-  Grafo G;
+  Grafo G = NULL;
   /* Largo maximo de los comentarios = 80 +1 por el /0 que agrega fgets */
   int bufsize = 81;
 
@@ -49,7 +49,7 @@ Grafo ConstruccionDelGrafo(){
   /* Si no eran numeros, entonces atoi devuelve 0...
      TODO: Se rompe si le paso un numero seguido de letras y numeros,
      toma el numero hasta la primer letra. Ej: 55fd98 = 55. */
-  if(nVertices == -1 || nAristas == -1){
+  if(nVertices == (u32)-1 || nAristas == (u32)-1){
     ErrorPrimeraLinea(G);
     return NULL;
   }
@@ -103,7 +103,7 @@ Grafo ConstruccionDelGrafo(){
       vertice1 = CheckIfNumber(vertice1String);
       vertice2 = CheckIfNumber(vertice2String);
 
-      if(vertice1 == -1 || vertice2 == -1){
+      if(vertice1 == (u32)-1 || vertice2 == (u32)-1){
         ErrorLecturaLinea(G,nLineas);
         return NULL;
       }
