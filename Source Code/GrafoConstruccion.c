@@ -29,7 +29,7 @@ Vertice AgregarVertice(Grafo grafo, u32 id){
   /*Si no lo es, busco el vertice hasta encontrarlo o encontrar un vertice en desuso.
   NOTA: Si el vertice ya hubiera sido guardado, no podria estar despues de un vertice vacio,
   ya que hubiera ocupado ese cundo fue creado (Porque nunca se borran vertices)*/
-  for(uint i = 1;i<nVertices;i++){
+  for(u32 i = 1;i<nVertices;i++){
     /* Si encuentro uno vacio lo creo aca. */
     if(grafo->vertices[(posicion+i)%nVertices] == 0){
       /* Alloco memoria para el vertice. */
@@ -94,7 +94,7 @@ void AgregarVecino(Vertice vertice, Vertice vecino){
 }
 
 void DestruirGrafo(Grafo G){
-  for(uint i = 0; i < G->nVertices; i++){
+  for(u32 i = 0; i < G->nVertices; i++){
     free(G->vertices[i]->vecinos);
     free(G->vertices[i]);
   }
@@ -115,7 +115,7 @@ void ResetColores(Grafo G){
     Vertice vertice = G->vertices[i];
     u32 nVecinos = vertice->grado;
     /* Recorro todos los vecinos del vertice */
-    for(uint j = 0; j<nVecinos; j++){
+    for(u32 j = 0; j<nVecinos; j++){
       vertice->vecinos[j]->color = -1;
     }
   }

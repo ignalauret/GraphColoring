@@ -60,7 +60,7 @@ int ComparadorRMBCrevierte(const void* a, const void* b){
 char OrdenRMBCchicogrande(Grafo G){
   /* Creo el arreglo de la cantidad de vertices de cada color global para usar en el comparador */
   punteroColores = calloc(G->nColores, sizeof(u32));
-  for(uint j = 0; j<G->nVertices;j++){
+  for(u32 j = 0; j<G->nVertices;j++){
     punteroColores[G->vertices[j]->color]++;
   }
   Ordenar(G,ComparadorRMBCchicogrande);

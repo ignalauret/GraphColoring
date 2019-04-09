@@ -163,7 +163,7 @@ int CheckIfNumber(char numero[]){
   char tempNumero[13];
   tempNumero[0] = '1';
   /* Copio el resto del string. */
-  for(uint i = 0;i<12;i++){
+  for(u32 i = 0;i<12;i++){
     tempNumero[i+1] = numero[i];
   }
   /* Chequeo si da 1. Si no da, devuelvo el atoi del original. */

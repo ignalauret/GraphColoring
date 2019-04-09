@@ -57,7 +57,7 @@ u32 ColorJotaesimoVecino(Grafo G, u32 i, u32 j){
 
 /* Chequea si un vertice esta en la lista de vecinos de otro. */
 bool EsVecino(Vertice v1, Vertice v2){
-  for (uint i = 0; i < v1->grado; i++) {
+  for (u32 i = 0; i < v1->grado; i++) {
     if ( v1->vecinos[i] == v2 ) return true;
   }
   return false;
@@ -66,7 +66,7 @@ bool EsVecino(Vertice v1, Vertice v2){
 /* Recorre el grafo llamando a las funciones para imprimir datos */
 void LeerGrafo(Grafo G){
   /* Recorro todo el arreglo de vertices. */
-  for(uint i = 0; i<G->nVertices;i++){
+  for(u32 i = 0; i<G->nVertices;i++){
     PrintVecinos(G->vertices[i]);
   }
 }
@@ -76,7 +76,7 @@ void PrintVecinos(Vertice v){
   if(v == NULL) return;
   /* Si existe printea el grado, nombre y vecinos */
   printf("Vertice numero: %u Grado: %u Color: %u \nSus vecino son:", v->nombre , v->grado, v->color);
-  for (uint i = 0; i < v->grado; i++) {
+  for (u32 i = 0; i < v->grado; i++) {
     u32 act = v->vecinos[i]->nombre;
     printf(" %u", act);
   }

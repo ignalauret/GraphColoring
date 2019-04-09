@@ -36,7 +36,7 @@ int DfsCheck(Vertice v, u32 color){
   v->color = color;
   /* Hago recursion con sus vecinos */
   int dfsCounter = 1;
-  for(uint i = 0; i<v->grado; i++){
+  for(u32 i = 0; i<v->grado; i++){
     dfsCounter += DfsCheck(v->vecinos[i],1-color);
   }
   /* Devuelvo el resultado */
@@ -45,7 +45,7 @@ int DfsCheck(Vertice v, u32 color){
 
 /* Retorna el primer vertice no pintado que encuentra */
 Vertice checkAllColored(Grafo G){
-  for(uint i = 0; i < G->nVertices; i++){
+  for(u32 i = 0; i < G->nVertices; i++){
     if(G->vertices[i]->color == (u32)-1) return G->vertices[i];
   }
   return NULL;

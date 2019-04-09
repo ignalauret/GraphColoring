@@ -78,7 +78,7 @@ void LeerGrafo(Grafo g);
 
 bool isLetter(char ch);
 
-uint checkLineEnd(char* buffer, u32 bufSize, u32 nChar);
+u32 checkLineEnd(char* buffer, u32 bufSize, u32 nChar);
 
 
 /* Greedy.c */
