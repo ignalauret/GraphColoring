@@ -120,4 +120,6 @@ int ComparadorRMBCchicogrande(const void* a, const void* b);
 
 char SwitchColores(Grafo G, u32 i, u32 j);
 
+char SwitchVertices(Grafo G, u32 i, u32 j);
+
 #endif

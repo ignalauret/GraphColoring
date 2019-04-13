@@ -84,3 +84,14 @@ char SwitchColores(Grafo G, u32 i, u32 j){
   }
   return 0;
 }
+
+/* Intercambia los vertices de las posiciones i,j en el grafo G*/
+char SwitchVertices(Grafo G, u32 i, u32 j){
+  //Checkea si i,j estan fuera de los valores correctos, retorna 1
+  if(i >= G->nVertices || j >= G->nVertices) return 1;
+  //Sino, realiza el swap:
+  Vertice temp = G->vertices[i];
+  G->vertices[i] = G->vertices[j];
+  G->vertices[j] = temp;
+  return 0;
+}
