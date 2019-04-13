@@ -102,9 +102,20 @@ void DestruirGrafo(Grafo G){
   free(G);
 }
 
-//TODO: Por ahora solo tomo modulo. Implementar funcon Hash.
+//Metodo de hash de Cormen
 u32 HashFunc(u32 id, u32 v){
-  return id%v;
+  //Constante sugerida por Donald Knuth 0.5*(sqrt(5) - 1):
+  double m = 0.61803398875;
+  //Multiplicamos el input por la constante
+  double hs = m * id;
+  //Tomamos la parte fraccional
+  u32 intPart= (int)hs;
+  hs = hs - intPart;
+  //Lo Multiplicamos por la cantidad de lugares
+  hs *= v;
+  //Tomamos la parte entera:
+  u32 ind = (int)hs;
+  return(hs < ind ? ind - 1 : ind);
 }
 
 /* Resetea el color de todos los vertices a -1 */
