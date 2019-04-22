@@ -74,8 +74,6 @@ Grafo ConstruccionDelGrafo(){
 
   /********* Fin chequeo de valores. *********/
 
-  printf("Aristas: %d, Vertices: %d\n", nAristas, nVertices );
-
   /* Allocamos memoria para el grafo. */
   G = malloc(sizeof(struct GrafoSt));
   /* Chequeamos si se alloco correctamente. */

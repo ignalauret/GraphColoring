@@ -33,7 +33,7 @@ int ComparadorWelshPowell(const void* a, const void* b){
 }
 
 /* Orden RMBCnormal (Por colores, Creciente) */
-char OrdenRMBCnormal(Grafo G){
+char RMBCnormal(Grafo G){
   Ordenar(G,ComparadorRMBCnormal);
   return 0;
 }
@@ -45,7 +45,7 @@ int ComparadorRMBCnormal(const void* a, const void* b){
 }
 
 /* Orden RMBCrevierte (Por colores, Decreciente) */
-char OrdenRMBCrevierte(Grafo G){
+char RMBCrevierte(Grafo G){
   Ordenar(G,ComparadorRMBCrevierte);
   return 0;
 }
@@ -57,7 +57,7 @@ int ComparadorRMBCrevierte(const void* a, const void* b){
 }
 
 /* Orden RMBCchicogrande (Por colores, Cantidad de vertices del color, Decreciente) */
-char OrdenRMBCchicogrande(Grafo G){
+char RMBCchicogrande(Grafo G){
   /* Creo el arreglo de la cantidad de vertices de cada color global para usar en el comparador */
   punteroColores = calloc(G->nColores, sizeof(u32));
   for(u32 j = 0; j<G->nVertices;j++){
@@ -70,8 +70,12 @@ char OrdenRMBCchicogrande(Grafo G){
 }
 
 int ComparadorRMBCchicogrande(const void* a, const void* b){
-  if(punteroColores[(*(Vertice*)a)->color] < punteroColores[(*(Vertice*)b)->color]) return 1;
-  if(punteroColores[(*(Vertice*)a)->color] == punteroColores[(*(Vertice*)b)->color]) return 0;
+  if(punteroColores[(*(Vertice*)a)->color] > punteroColores[(*(Vertice*)b)->color]) return 1;
+  if(punteroColores[(*(Vertice*)a)->color] == punteroColores[(*(Vertice*)b)->color]){
+    if((*(Vertice*)a)->color > (*(Vertice*)b)->color) return 1;
+    if((*(Vertice*)a)->color == (*(Vertice*)b)->color) return 0;
+    return -1;
+  }
   return -1;
 }
 
@@ -85,7 +89,7 @@ char SwitchColores(Grafo G, u32 i, u32 j){
   return 0;
 }
 
-/* Intercambia los vertices de las posiciones i,j en el grafo G*/
+/* Intercambia los vertices de las posiciones i,j en el grafo G */
 char SwitchVertices(Grafo G, u32 i, u32 j){
   //Checkea si i,j estan fuera de los valores correctos, retorna 1
   if(i >= G->nVertices || j >= G->nVertices) return 1;

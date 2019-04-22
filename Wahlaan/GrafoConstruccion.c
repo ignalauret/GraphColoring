@@ -93,7 +93,7 @@ void AgregarVecino(Vertice vertice, Vertice vecino){
   vertice->grado++;
 }
 
-void DestruirGrafo(Grafo G){
+void DestruccionDelGrafo(Grafo G){
   for(u32 i = 0; i < G->nVertices; i++){
     free(G->vertices[i]->vecinos);
     free(G->vertices[i]);
@@ -104,6 +104,7 @@ void DestruirGrafo(Grafo G){
 
 //Metodo de hash de Cormen
 u32 HashFunc(u32 id, u32 v){
+  return id%v;
   //Constante sugerida por Donald Knuth 0.5*(sqrt(5) - 1):
   double m = 0.61803398875;
   //Multiplicamos el input por la constante

@@ -53,10 +53,12 @@ u32 HashFunc(u32 id, u32 v);
 
 void ResetColores(Grafo G);
 
-void DestruirGrafo(Grafo G);
+void DestruccionDelGrafo(Grafo G);
 
 
 /* GrafoInformacion.c */
+
+u32 NombreDelVertice(Grafo G, u32 i);
 
 u32 NumeroDeVertices(Grafo G);
 
@@ -65,6 +67,10 @@ u32 NumeroDeAristas(Grafo G);
 u32 NumeroDeColores(Grafo G);
 
 u32 NumeroDeVecinos(Grafo G, u32 i);
+
+u32 GradoDelVertice(Grafo G, u32 i);
+
+u32 ColorDelVertice(Grafo G, u32 i);
 
 bool EsVecino(Vertice v, Vertice v2);
 
@@ -106,15 +112,15 @@ char OrdenWelshPowell(Grafo G);
 
 int ComparadorWelshPowell(const void * a, const void * b);
 
-char OrdenRMBCnormal(Grafo G);
+char RMBCnormal(Grafo G);
 
 int ComparadorRMBCnormal(const void * a, const void * b);
 
-char OrdenRMBCrevierte(Grafo G);
+char RMBCrevierte(Grafo G);
 
 int ComparadorRMBCrevierte(const void* a, const void* b);
 
-char OrdenRMBCchicogrande(Grafo G);
+char RMBCchicogrande(Grafo G);
 
 int ComparadorRMBCchicogrande(const void* a, const void* b);
 

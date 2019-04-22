@@ -1,0 +1,8 @@
+G_BxB
+Aristas: 8807410, Vertices: 2210104
+Grafo Creado en 972.034420 segundos
+Greedy con Orden Natural pinto con 5 colores
+==5832==
+==5832== HEAP SUMMARY:
+==5832==     in use at exit: 0 bytes in 0 blocks
+==5832==   total heap usage: 4,470,997 allocs, 4,470,997 frees, 425,038,520 bytes allocated
