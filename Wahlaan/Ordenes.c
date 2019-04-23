@@ -34,27 +34,87 @@ int ComparadorWelshPowell(const void* a, const void* b){
 
 /* Orden RMBCnormal (Por colores, Creciente) */
 char RMBCnormal(Grafo G){
-  Ordenar(G,ComparadorRMBCnormal);
+  //Alocamos el arreglo donde vamos a poner el resultado final:
+  Vertice * arregloTemp = calloc(G->nVertices, sizeof(Vertice));
+  //Si hay un problema para crearlo retornamos -1
+  if(arregloTemp == NULL) return -1;
+  //Creamos un arreglo de tamaño de la cantidad de colores
+  punteroColores = calloc(G->nColores+1, sizeof(u32));
+  //Si hay un problema para crearlo retornamos -1
+  if(punteroColores == NULL) return -1;
+  //Y recorremos todos los vertices incrementando en 1
+  //la posicion del arreglo de su numero de color:
+  //(Ya estaba inicializado en 0)
+  for(u32 j = 0; j<G->nVertices; j++){
+    punteroColores[G->vertices[j]->color+1]++;
+  }
+  //Realizamos el arreglo de sumas parciales para
+  //Tener el index donde debe empezar cada color:
+  for(u32 j = 1; j<G->nColores+1; j++){
+    punteroColores[j] = punteroColores[j] + punteroColores[j-1];
+  }
+  //Ahora recorremos todos los vertices y los ponemos
+  //En el arreglo que creamos al principio, pero ya
+  //En la posicion correcta, incrementando el valor
+  //Donde va a ir el siguiente vertice del mismo color
+  for(u32 j = 0; j<G->nVertices; j++){
+    u32 index = punteroColores[G->vertices[j]->color];
+    punteroColores[G->vertices[j]->color]++;
+    arregloTemp[index] = G->vertices[j];
+  }
+  //Liberamos lo que habia antes
+  free(G->vertices);
+  //Lo referenciamos al nuevo arreglo
+  G->vertices = arregloTemp;
+  //liberamos el arreglo de los colores
+  free(punteroColores);
   return 0;
-}
-
-int ComparadorRMBCnormal(const void* a, const void* b){
-  if((*(Vertice*)a)->color > (*(Vertice*)b)->color) return 1;
-  if((*(Vertice*)a)->color == (*(Vertice*)b)->color) return 0;
-  return -1;
 }
 
 /* Orden RMBCrevierte (Por colores, Decreciente) */
 char RMBCrevierte(Grafo G){
-  Ordenar(G,ComparadorRMBCrevierte);
+  //Alocamos el arreglo donde vamos a poner el resultado final:
+  Vertice * arregloTemp = calloc(G->nVertices, sizeof(Vertice));
+  //Si hay un problema para crearlo retornamos -1
+  if(arregloTemp == NULL) return -1;
+  //Creamos un arreglo de tamaño de la cantidad de colores
+  punteroColores = calloc(G->nColores+1, sizeof(u32));
+  //Si hay un problema para crearlo retornamos -1
+  if(punteroColores == NULL) return -1;
+  //Y recorremos todos los vertices incrementando en 1
+  //la posicion del arreglo de su numero de color:
+  //(Ya estaba inicializado en 0)
+  for(u32 j = 0; j<G->nVertices; j++){
+    punteroColores[G->vertices[j]->color+1]++;
+  }
+  //Realizamos el arreglo de sumas parciales para
+  //Tener el index donde debe empezar cada color:
+  for(u32 j = 1; j<G->nColores+1; j++){
+    punteroColores[j] = punteroColores[j] + punteroColores[j-1];
+  }
+  //Ahora invertimos las posiciones para que la posicion 0 quede en el n
+  //La posicion 1 en el n-1 y asi..
+  for(u32 j = 0; j<G->nColores; j++){
+    punteroColores[j] = (G->nVertices - 1) - punteroColores[j];
+  }
+  //Recorremos la lista de vertices poniendo cada uno en su
+  //Lugar en el arreglo nuevo, pero esta vez decrementamos
+  //El indice donde va a ir el siguiente vertice del mismo
+  //color: ( n, n-1, n-2 ... )
+  for(u32 j = 0; j<G->nVertices; j++){
+    u32 index = punteroColores[G->vertices[j]->color];
+    punteroColores[G->vertices[j]->color]--;
+    arregloTemp[index] = G->vertices[j];
+  }
+  //Liberamos lo que habia antes
+  free(G->vertices);
+  //Lo referenciamos al nuevo arreglo
+  G->vertices = arregloTemp;
+  //liberamos el arreglo de los colores
+  free(punteroColores);
   return 0;
 }
 
-int ComparadorRMBCrevierte(const void* a, const void* b){
-  if((*(Vertice*)a)->color < (*(Vertice*)b)->color) return 1;
-  if((*(Vertice*)a)->color == (*(Vertice*)b)->color) return 0;
-  return -1;
-}
 
 /* Orden RMBCchicogrande (Por colores, Cantidad de vertices del color, Decreciente) */
 char RMBCchicogrande(Grafo G){
