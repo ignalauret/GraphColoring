@@ -99,6 +99,8 @@ int DfsCheck(Vertice V, u32 color);
 
 Vertice checkAllColored(Grafo G);
 
+int pintarBipartito(u32 nVertices, Grafo G, Vertice inicio);
+
 
 /* Ordenes.c */
 

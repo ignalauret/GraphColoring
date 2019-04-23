@@ -16,11 +16,12 @@ int main(void){
   printf("Grafo Creado en %f segundos\n", segundos );
 
   /********************** Analisis del grafo **********************/
-  // if(Bipartito(grafo)) printf("Es Bipartito\n");
-  RMBCchicogrande(grafo);
-  for(int i = 0; i < NumeroDeVertices(grafo); i++){
-    printf("%u\n", ColorDelVertice(grafo,i));
-  }
+  if(Bipartito(grafo) == 1) printf("Es Bipartito\n");
+  else printf("No es Bipartito\n");
+  // RMBCchicogrande(grafo);
+  // for(int i = 0; i < NumeroDeVertices(grafo); i++){
+  //   printf("%u\n", ColorDelVertice(grafo,i));
+  // }
 
 
 
